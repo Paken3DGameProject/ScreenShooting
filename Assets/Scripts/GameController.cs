@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject can;
+
     // Start is called before the first frame update
     public int[] evnums = new int[8];
     Vector2[] mpos = new Vector2[8];
@@ -11,11 +14,12 @@ public class GameController : MonoBehaviour
     public Transform[] cursors = new Transform[8];
     Transform[] pcursors = new Transform[8];
     public Transform[] guns = new Transform[8];
-    System.Random rand = new System.Random(1000);
     double pre;
     void Start()
     {
         pre = 0;
+
+        StartCoroutine(AppearCan());
     }
 
     // Update is called once per frame
@@ -39,12 +43,15 @@ public class GameController : MonoBehaviour
             }
             preclick[i] = isclick[i];
         }
-        if (Time.time - pre > 0.5)
-        {
-            if (rand.Next(10) < 5)
-            {
+    }
 
-            }
+    private IEnumerator AppearCan()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(0.5f);
+            var obj = Instantiate(can);
+            obj.transform.position = new Vector3(Random.Range(-7, 7), 10f, 6.9f);
         }
     }
 }
